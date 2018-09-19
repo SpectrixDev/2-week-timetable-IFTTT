@@ -1,0 +1,9 @@
+The format of this file is as follows:
+{day number of school week} {date}
+
+eg:
+7 2018-09-19
+
+If you're interested and want to run my code, please replace the text in this file
+with the day number of your own school week and your own date. In the future I 
+will make this easier to use for other people :)
