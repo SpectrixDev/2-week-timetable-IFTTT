@@ -25,7 +25,7 @@ def calculateDay():
         if lastSchoolDay >= 10:
             lastSchoolDay = 0
         else:
-            ++lastSchoolDay
+           lastSchoolDay += 1
 
         notification(lessons[lastSchoolDay])
 
