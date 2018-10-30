@@ -1,4 +1,4 @@
-import requests, datetime
+import aiohttp, datetime
 
 lessons = ["Geography, Accounting, Math, Break (assembly), Physics (11:15), EDG, Break (13:00), English (13:40)", #0
            "English, Physics, Afrikaans, Break, Biology (11:10), LO, Break (12:55 IT duty), Math (13:30)", #1
@@ -13,7 +13,14 @@ lessons = ["Geography, Accounting, Math, Break (assembly), Physics (11:15), EDG,
            "Accounting, EDG, Math, Break (assembly), Biology (11:10), History, Break (12:45), Afrikaans (13:20)"] #9
 
 
-def calculateDay():
+async def notification(message):
+    report = {}
+    report["value1"] = message
+    async with aiohttp.ClientSession() as session:
+           session.post("https://maker.ifttt.com/trigger/{channel name}/with/key/{key here}", data=report)
+    print("Posted data")
+
+async def calculateDay():
     with open("dayInfo.txt") as f:
         dayInfo = f.read()
 
@@ -27,7 +34,7 @@ def calculateDay():
         else:
            lastSchoolDay += 1
 
-        notification(lessons[lastSchoolDay])
+        await notification(lessons[lastSchoolDay])
 
         date = datetime.datetime.now().date()
         with open("dayInfo.txt", "w") as f:
@@ -36,15 +43,8 @@ def calculateDay():
     else:
         pass
 
-
-def notification(message):
-    report = {}
-    report["value1"] = message
-    requests.post("https://maker.ifttt.com/trigger/{channel name}/with/key/{key here}", data=report)
-    print("Posted data")
-
 if __name__ == '__main__':
-    calculateDay()
+    await calculateDay()
     with open("dayInfo.txt") as f:
         dayInfo = f.read()
     print(dayInfo)
